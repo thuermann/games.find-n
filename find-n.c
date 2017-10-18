@@ -1,9 +1,10 @@
 /*
- * $Id: find-n.c,v 1.2 2017/10/18 06:46:43 urs Exp $
+ * $Id: find-n.c,v 1.3 2017/10/18 06:47:56 urs Exp $
  */
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <limits.h>
 
 static void usage(const char *name)
 {
@@ -15,6 +16,7 @@ static int check(unsigned long long m, unsigned long long n);
 
 int main(int argc, char **argv)
 {
+	const unsigned long long maxn = ULLONG_MAX / 2 + 1;
 	unsigned long long n;
 
 	if (argc != 2) {
@@ -23,6 +25,10 @@ int main(int argc, char **argv)
 	}
 
 	n = strtoull(argv[1], NULL, 0);
+	if (n > maxn) {
+		fprintf(stderr, "Maximum number allowed is %llu\n", maxn);
+		exit(1);
+	}
 
 	find(n);
 
